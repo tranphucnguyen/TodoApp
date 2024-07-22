@@ -1,8 +1,11 @@
+// redux/store.js
 import { configureStore } from '@reduxjs/toolkit';
-import todoReducer from './todoSlice';
+import { reducer as authReducer } from './authSlice';
+import todoReducer from './todoSlice'; // Đảm bảo rằng bạn import đúng reducer
 
 export const store = configureStore({
     reducer: {
-        todos: todoReducer,
+        auth: authReducer,
+        todos: todoReducer, // Gán reducer cho key 'todos'
     },
 });

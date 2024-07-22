@@ -1,3 +1,4 @@
+// todoSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const todoSlice = createSlice({
@@ -20,4 +21,4 @@ const todoSlice = createSlice({
 });
 
 export const { addTodo, toggleTodo, deleteTodo } = todoSlice.actions;
-export default todoSlice.reducer;
+export default todoSlice.reducer; // Đảm bảo rằng bạn export default reducer

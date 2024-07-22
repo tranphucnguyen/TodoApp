@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTodo, toggleTodo, deleteTodo } from '../redux/todoSlice';
+import { actions as authActions } from '../redux/authSlice'; // Import actions từ authSlice
 
 const TodoApp = () => {
     const [text, setText] = useState('');
     const todos = useSelector(state => state.todos);
+    const user = useSelector(state => state.auth.user); // Lấy thông tin người dùng từ Redux store
     const dispatch = useDispatch();
 
     const handleAddTodo = () => {
@@ -26,6 +28,15 @@ const TodoApp = () => {
         </View>
     );
 
+    if (!user) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.message}>You need to log in to access TODOs</Text>
+                <Button title="Login" onPress={() => dispatch(authActions.login({ username: 'testUser' }))} />
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Todo App</Text>
@@ -43,6 +54,7 @@ const TodoApp = () => {
                 renderItem={renderItem}
                 keyExtractor={item => item.id.toString()}
             />
+            <Button title="Logout" onPress={() => dispatch(authActions.logout())} />
         </View>
     );
 };
@@ -86,6 +98,11 @@ const styles = StyleSheet.create({
     completed: {
         textDecorationLine: 'line-through',
         color: '#aaa',
+    },
+    message: {
+        fontSize: 18,
+        textAlign: 'center',
+        marginBottom: 20,
     },
 });
 
